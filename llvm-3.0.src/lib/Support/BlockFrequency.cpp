@@ -70,6 +70,7 @@ BlockFrequency &BlockFrequency::operator*=(const BranchProbability &Prob) {
 
   assert(n <= d && "Probability must be less or equal to 1.");
 
+#if (TARGET != IRIX64 )
   // If we can overflow use 96-bit operations.
   if (n > 0 && Frequency > UINT64_MAX / n) {
     // 96-bit value represented as W[1]:W[0].
@@ -81,6 +82,7 @@ BlockFrequency &BlockFrequency::operator*=(const BranchProbability &Prob) {
     Frequency = div96bit(W, d);
     return *this;
   }
+#endif
 
   Frequency *= n;
   Frequency /= d;
@@ -98,9 +100,11 @@ BlockFrequency &BlockFrequency::operator+=(const BlockFrequency &Freq) {
   uint64_t Before = Freq.Frequency;
   Frequency += Freq.Frequency;
 
+#if (TARGET != IRIX64 )
   // If overflow, set frequency to the maximum value.
   if (Frequency < Before)
     Frequency = UINT64_MAX;
+#endif
 
   return *this;
 }

@@ -1,0 +1,16 @@
+
+
+
+./configure --prefix=/usr/nekoware/llvm/
+
+
+export PATH=/usr/nekoware/gcc4.3/bin/:$PATH
+
+
+# Get rid of any MIPS Pro environment variables.
+unset CC
+unset CXX
+unset CXXFLAGS
+unset CCFLAGS
+
+

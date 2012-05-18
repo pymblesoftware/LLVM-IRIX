@@ -66,6 +66,12 @@
 # undef HAVE_MKDTEMP
 #endif
 
+#if TARGET == IRIX64
+#include <rld_interface.h>   // DL_info
+#include <dlfcn.h>           // dladdr
+int dladdr(void *address, Dl_info *dlip);  // man pages says its there in 6.5.30 but not in pratice
+#endif
+
 namespace {
 inline bool lastIsSlash(const std::string& path) {
   return !path.empty() && path[path.length() - 1] == '/';

@@ -46,6 +46,7 @@ llvm::sys::Memory::AllocateRWX(size_t NumBytes, const MemoryBlock* NearBlock,
   fd = zero_fd;
 #endif
 
+#if TARGET != IRIX64
   int flags = MAP_PRIVATE |
 #ifdef HAVE_MMAP_ANONYMOUS
   MAP_ANONYMOUS
@@ -53,6 +54,10 @@ llvm::sys::Memory::AllocateRWX(size_t NumBytes, const MemoryBlock* NearBlock,
   MAP_ANON
 #endif
   ;
+#else
+   int flags = MAP_PRIVATE;
+#endif
+
 
   void* start = NearBlock ? (unsigned char*)NearBlock->base() +
                             NearBlock->size() : 0;
